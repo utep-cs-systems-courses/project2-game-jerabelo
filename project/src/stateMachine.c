@@ -47,7 +47,7 @@ void state_advance()
     break;
   }
   led_changed = changed;
-  led_udpate();
+  led_update();
 }
 
 void main_state_advance()
@@ -101,7 +101,7 @@ void up_state()
   green_on = 1;
   changed = toggle_green();
   led_changed = changed;
-  led_udpate();
+  led_update();
 }
 
 void down_state()
