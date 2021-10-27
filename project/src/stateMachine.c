@@ -3,12 +3,12 @@
 #include "led.h"
 #include "buzzer.h"
 
-static char sb = 1;
-static short x = 500;
+char sb = 1;
+short x = 500;
 
 char toggle_red()
 {
-  static char state = 0;
+  char state = 0;
   switch(state) {
   case 0:
     red_on = 1;

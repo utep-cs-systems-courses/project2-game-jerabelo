@@ -1,6 +1,5 @@
 #ifndef stateMachine_included
 #define stateMachine_included
-#define extern global char state
 
 void state_advance();
 void up_state();
