@@ -1,9 +1,5 @@
 #include <msp430.h>
 #include "switches.h"
-#include "stateMachine.h"
-#include "led.h"
-
-char switch_pressed = 3;
 
 void
 __interrupt_vec(PORT2_VECTOR) Port_2() {

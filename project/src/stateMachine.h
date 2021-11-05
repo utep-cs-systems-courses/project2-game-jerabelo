@@ -1,12 +1,13 @@
 #ifndef stateMachine_included
 #define stateMachine_included
 
-void state_advance();
-void up_state();
-void down_state();
-void button3_sirren();
-void button4_off();
-void blink_dim();
-void buzzer_advance();
-void main_state_advance();
+void red_dim25();
+void red_dim50();
+void red_dim75();
+void green_dim25();
+void green_dim50();
+void green_dim75();
+void dim_sequence();
+void play_song();
+
 #endif

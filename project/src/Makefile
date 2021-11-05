@@ -9,22 +9,30 @@ LDFLAGS	= -L/opt/ti/msp430_gcc/include
 CC	= msp430-elf-gcc
 AS	= msp430-elf-as
 
-all:	button.elf
-
+all:	play.elf
 #additional rules for files
 
-button.elf: ${COMMON_OBJECTS} p2_interrupt_handler.o switches.o main.o stateMachine.o wdInterruptHandler.o buzzer.o ./lib/libTimer.a
+play.elf: ${COMMON_OBJECTS} main.o stateMachine.o led.o wdInterruptHandler.o switches.o buzzer.o p2_interrupt_handler.o ../lib/libTimer.a
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^
-load:	button.elf
-	msp430loader.sh button.elf
+
+load:	play.elf
+	msp430loader.sh play.elf
 
 clean:
 	rm -f *.o *.elf
 
-lead.o:	lead.c led.h
+main.o:	led.c switches.h buzzer.h main.c
+
+led.o:	led.c led.h
 
 wdInterruptHandler.o:	stateMachine.h
 
+p2_interrupt_Handler.o:	switches.h
+
 stateMachine.o:	led.h stateMachine.h
 
-buzzer.c:	buzzer.h
+switches.o:	switches.h switches.c
+
+buzzer.o:	buzzer.h
+
+sondNotes.o:	songNotes.h

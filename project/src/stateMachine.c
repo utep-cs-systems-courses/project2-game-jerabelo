@@ -2,126 +2,149 @@
 #include "stateMachine.h"
 #include "led.h"
 #include "buzzer.h"
+#include "switches.h"
+#include "songNotes.h"
 
-char sb = 1;
-short x = 500;
+int toggle_red = 0;
+int toggle_green = 0;
 
-char toggle_red()
+void red_dim25()
 {
-  char state = 0;
-  switch(state) {
+  switch(toggle_red) {
   case 0:
-    red_on = 1;
-    state = 1;
-    break;
+    red_on(0);
+    toggle_red++;
   case 1:
-    red_on = 0;
-    state = 0;
-    break;
-  }
-  return 1;
-}
-
-char toggle_green()
-{
-  char changed= 0;
-  if(red_on) {
-    green_on ^= 1;
-    changed = 1;
-  }
-  return changed;
-}
-
-void state_advance()
-{
-  char changed = 0;
-  static enum {R = 0, G = 1} color = G;
-  switch(color) {
-  case R:
-    changed = toggle_red();
-    color = G;
-    break;
-  case G:
-    changed = toggle_green();
-    color = R;
-    break;
-  }
-  led_changed = changed;
-  led_update();
-}
-
-void main_state_advance()
-{
-  static char state = 0;
-  switch(state) {
-  case 0:
-  case 1:
-    up_state();
-    state++;
+    toggle_red++;
   case 2:
-    down_state();
-    state = 0;
+    toggle_red++;
+      break;
+  case 3:
+    red_on(1);
+    toggle_red = 0;
+    break;
   default:
     break;
   }
 }
 
-void button3_siren()
+void red_dim50()
 {
-  buzzer_set_period(0);
-  green_on = 0;
-  red_on = 0;
-  led_changed = 1;
-  led_update();
-}
-
-void blink_dim()
-{
-  static char state = 0;
-  switch (state) {
+  switch(toggle_red) {
   case 0:
-    red_on = 1;
-    green_on = 1;
-    state++;
+    red_on(1);
+    toggle_red++;
     break;
   case 1:
-    red_on = 0;
-    green_on = 0;
-    state = 0;
+    red_on;
+    toggle_red++;
+    break;
+  case 2:
+    toggle_red++;
+    break;
+  case 3:
+    red_on(0);
+    toggle_red++;
+  default:
+    break;
   }
-  led_changed = 1;
-  led_update();
 }
 
-void up_state()
+void red_dim75()
 {
-  char changed = 0;
-  sb = 1;
-  red_on = 0;
-  green_on = 1;
-  changed = toggle_green();
-  led_changed = changed;
-  led_update();
-}
-
-void down_state()
-{
-  char changed = 0;
-  sb = 0;
-  green_on = 0;
-  red_on = 1;
-  changed = toggle_red();
-  led_changed = changed;
-  led_update();
-}
-
-void buzzer_advance()
-{
-  if(sb) {
-    x += 225;
-  } else {
-    x -= 450;
+  switch(toggle_red) {
+  case 0:
+    red_on(0);
+    toggle_red++;
+    break;
+  case 1:
+    toggle_red++;
+    break;
+  case 2:
+    toggle_red++;
+    break;
+  case 3:
+    red_on(1);
+    toggle_red = 0;
+    break;
+  default:
+    break;
   }
-  short cycles = 20000000/x;
-  buzzer_set_period(cycles);
+}
+
+void green_dim25()
+{
+  switch (toggle_green){
+  case 0:
+    green_on(0);
+    toggle_green++;
+  case 1:
+    toggle_green++;
+  case 2:
+    toggle_green++;
+    break;
+  case 3:
+    green_on(1);
+    toggle_green = 0;
+    break;
+  default:
+    break;
+  }
+}
+
+void green_dim50()
+{
+  switch (toggle_green){
+  case 0:
+    green_on(1);
+    toggle_green++;
+    break;
+  case 1:
+    green_on(0);
+    toggle_green++;
+    break;
+  case 2:
+    toggle_green++;
+    break;
+  case 3:
+    green_on(1);
+    toggle_green = 0;
+  default:
+    break;
+  }
+}
+
+void play_song()
+{
+  char currNote = 0;  // Keep track of state
+  int sunandmoon[6] = {E7,D6,CS5,FS1,A3,B4};
+  int n = 15;
+  if (currNote < n){
+    buzzer_set_period(sunandmoon[currNote]);
+    currNote++;
+  } else{
+    currNote = 0;
+  }
+}
+
+void green_dim75()
+{
+  switch(toggle_green){
+  case 0:
+    green_on(0);
+    toggle_green++;
+    break;
+  case 1:
+    toggle_green++;
+    break;
+  case 2:
+    toggle_green++;
+    break;
+  case 3:
+    green_on(1);
+    toggle_green = 0;
+    break;
+  default:
+    break;
+  }
 }
