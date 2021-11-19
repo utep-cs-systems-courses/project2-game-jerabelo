@@ -2,55 +2,22 @@
 #include "led.h"
 #include "switches.h"
 
+unsigned char red = 0, green = 0, change = 0;
+static char red_value[] = {0,LED_RED}, value_green[] = {0,LED_GREEN};
+
 void led_init()
 {
   P1DIR |= LEDS;
+  change = 1;
   led_update();
 }
 
 void led_update()
 {
-  P1OUT &= ~LEDS;
-}
-
-void red_on(int on)
-{
-  if(on == 0) {
-    P1OUT &= ~LED_GREEN;
-  } else if(on == 1) {
-    P1OUT |= ~LEDS;
-  }
-}
-
-void green_on(int on)
-{
-  if(on == 0) {
-    P1OUT |= LED_GREEN;
-  } else if(on == 1) {
-    P1OUT |= LED_GREEN;
-  }
-}
-
-void leds_on(int on) {
-  if(on == 0) {
-    P1OUT &= ~LEDS;
-  } else if (on == 1) {
-    P1OUT |= LEDS;
-  }
-}
-
-void alt_leds(int on) {
-  switch(on) {
-  case 0:
-    red_on(1);
-    green_on(0);
-    break;
-  case 1:
-    red_on(1);
-    green_on(1);
-    break;
-  default:
-    leds_on(0);
-    break;
+  if(change) {
+    char led = red_value[red] | value_green[green];
+    P1OUT  &= ~LEDS;
+    P1OUT |= led;
+    change = 0;
   }
 }

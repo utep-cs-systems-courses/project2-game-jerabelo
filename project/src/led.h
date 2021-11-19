@@ -1,16 +1,15 @@
-#ifndef led_included
-#define led_included
+#ifndef leds_included
+#define leds_included
+#include <msp430.h>
 
-#define LED_GREEN BIT6
-#define LED_RED BIT0
+#define LED_RED BIT0               // P1.0
+#define LED_GREEN BIT6             // P1.6
 #define LEDS (BIT0 | BIT6)
 
-void led_init();
-void led_update();
+extern unsigned char red, green;
+extern unsigned char change;
 
-void red_on(int on);
-void green_on(int on);
+void led_init(); 
+void led_update(); 
 
-void leds_on(int on);
-void alt_leds(int on);
 #endif
