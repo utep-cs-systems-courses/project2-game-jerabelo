@@ -10,11 +10,11 @@ static char check_switches() {
   return p2val;
 }
 
-void switch_init() {
-  P2REN |= SWITCHES; 
-  P2IE |= SWITCHES;
-  P2OUT |= SWITCHES;
-  P2DIR &= ~SWITCHES;
+void switch_init() { /* setup switch */
+  P2REN |= SWITCHES; /* enables resistor */
+  P2IE |= SWITCHES; /* enable interrupts from switches */
+  P2OUT |= SWITCHES; /* pull-ups for switches */
+  P2DIR &= ~SWITCHES; /*set switch bits for inputs */
 }
 
 void handle_switches() {
